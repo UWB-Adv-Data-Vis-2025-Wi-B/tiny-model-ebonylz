@@ -50,7 +50,7 @@ summary.lm(temp_lm)
 
 ## Species-specific effects of temperature on chirping
 
-This model shows that as temperature increases as does cricket chirping. The model accounts for about 99% of the variance of the data. Compared to the first model which accounted for 92%, meaning that although both models are good this model is more reliable. 
+This model shows that as temperature increases as does cricket chirping. The O.exclamationis has a chirp rate if 10 rates per minute higher than the O. niveus. The model accounts for about 99% of the variance of the data. Compared to the first model which accounted for 92%, meaning that although both models are good this model is more reliable. 
 
 
 ```{r species, echo = FALSE}
