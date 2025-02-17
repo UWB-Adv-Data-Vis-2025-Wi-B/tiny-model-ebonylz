@@ -31,9 +31,9 @@ ggplot(diamonds, aes(x = price, fill=cut)) +
 
 ## How does the carat of a diamond affect the price?
 
-According to this report, on average a 1-unit increase in carat increases the price by $7,756.43. The error in this report is ($1549) meaning that the model is good but not perfect This model explains 84.93% of the variation based on carat alone
+According to this plot, on average a 1-unit increase in carat increases the price by $7,756.43. The error in this report is ($1549) meaning that the model is good but not perfect This model explains 84.93% of the variation based on carat alone
 
-```{r price, echo = FALSE}
+```{r price carat, echo = FALSE}
 ggplot(diamonds, aes(x=carat, y=price)) +
   geom_point(alpha = 0.5) + 
   geom_smooth(method = 'lm', se = FALSE) +
@@ -43,6 +43,24 @@ ggplot(diamonds, aes(x=carat, y=price)) +
   theme_minimal()
 
 price_lm <- lm(lm(price ~ carat, data = diamonds))
+
+summary(price_lm)
+```
+
+## how does the cut and carat of a diamond change the price of a diamond?
+
+In this plot, it shows that higher quality cut does increase the price by about $1239.80 per step of cut. The standard error is $1511 and 85.65% variance in price which is an improvement from the previous plot, but can still use room for improvement
+
+```{r price carat cut, echo = FALSE}
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
+  geom_point(alpha = 0.3) + 
+  geom_smooth(method = 'lm', se = FALSE) +
+  ggtitle("Plot of Price vs Carat of Diamonds") +
+  ylab('Price of Diamond') +
+  xlab('Carat') +
+  theme_minimal()
+
+price_lm <- lm(price ~ carat + cut, data = diamonds)
 
 summary(price_lm)
 ```
