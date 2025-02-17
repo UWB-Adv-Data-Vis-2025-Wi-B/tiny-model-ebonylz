@@ -22,6 +22,7 @@ names(crickets)
 
 ## What is that sound?
 In this report, we examine what factors predict a cricket's chirp rate
+In this section, the 2 species examined occupy different temperature ranges
 
 ```{r species histogram, echo = FALSE}
 summary(crickets)
@@ -69,5 +70,19 @@ summary.lm(species_lm)
 
 ##Interactions
 
-```
+This report shows that the p-value is above 0.05 suggesting that species-temperature interaction and species-species models are not statistically significant in their difference. Meaning we can rely on the simpler 'species_lm' result. Checked interactions but since species model produces more meaningful data to make predictions and practical decisions. 
+
+```{r interactions, echo = FALSE}
+ggplot(crickets, aes(x=temp, y=rate, color = species)) +
+  geom_point() +
+  geom_smooth(method ='lm') +
+  ggtitle("Plot of temperature and chirp rate for two species of crickets") +
+  ylab('Chirp rate(per min.)') +
+  xlab('Temperature (Celsius)')
+
+species_x_temp_lm <- lm(rate ~ temp + species + temp:species, crickets)
+summary.lm(species_x_temp_lm)
+
+anova(species_lm, species_x_temp_lm)
+  
 ```
