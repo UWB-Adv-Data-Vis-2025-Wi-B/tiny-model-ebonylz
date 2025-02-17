@@ -18,3 +18,13 @@ This R markdown document demonstrates my abilities to use models for data analys
 data(ggplot2::diamonds, package = "modeldata")
 names(diamonds)
 ```
+
+## 
+
+```{r histogram, echo = FALSE}
+summary(diamonds)
+ggplot(diamonds, aes(x = price, fill=cut)) +
+  geom_histogram() +
+  ggtitle("Distribution of Price and cut of Diamonds") +
+  xlab('Price of diamond')
+```
