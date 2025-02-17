@@ -19,7 +19,9 @@ data(ggplot2::diamonds, package = "modeldata")
 names(diamonds)
 ```
 
-## 
+## Introduction
+
+3 variables I will be using is price, carat, and cut of a diamond to predict price of diamonds
 
 ```{r histogram, echo = FALSE}
 summary(diamonds)
