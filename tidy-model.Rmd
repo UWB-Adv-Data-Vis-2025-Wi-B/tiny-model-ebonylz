@@ -1,0 +1,88 @@
+---
+title: "tidy-model"
+author: "ebonylz"
+date: "2025-02-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library('tidyverse') ; library('modeldata')
+```
+
+## Introduction
+
+This R markdown document demonstrates my abilities to use models for data analysis using a data set collected on crickets
+
+
+```{r load data, include = FALSE}
+data(crickets, package = "modeldata")
+names(crickets)
+```
+
+## What is that sound?
+In this report, we examine what factors predict a cricket's chirp rate
+In this section, the 2 species examined occupy different temperature ranges
+
+```{r species histogram, echo = FALSE}
+summary(crickets)
+ggplot(crickets, aes(x = rate, fill=species)) +
+  geom_histogram(position = 'identity', alpha = 0.7, bins = 8) +
+  ggtitle("Distribution of the chirp rate of crickets") +
+  xlab('Chirp rate (per min.)')
+```
+
+## Temperature affects chirp rate
+
+Based on a scatter plot of temperature and chirping and a correlation test, it appears that as temperature increases one degree (Celsius) the rate of chirping increases about 4.2 chirps per minute
+
+```{r temp, echo = FALSE}
+ggplot(crickets, aes(x=temp, y=rate)) +
+  geom_point() +
+  geom_smooth(method = 'lm') +
+  ggtitle("Plot of temperature and chirp rate") +
+  ylab('Chirp rate (per min.)') +
+  xlab('Temperature (Celsius)')
+
+temp_lm <- lm(rate ~ temp, crickets)
+
+summary.lm(temp_lm)
+```
+
+## Species-specific effects of temperature on chirping
+
+This model shows that as temperature increases as does cricket chirping. The O.exclamationis has a chirp rate if 10 rates per minute higher than the O. niveus. The model accounts for about 99% of the variance of the data. Compared to the first model which accounted for 92%, meaning that although both models are good this model is more reliable. 
+
+
+```{r species, echo = FALSE}
+ggplot(crickets, aes(x=temp, y=rate, color = species)) +
+  geom_point() +
+  geom_smooth(method ="lm") +
+  ggtitle("Plot of temperature and chirp rate for two species of crickets") +
+  ylab('Chirp rate(per min.)') +
+  xlab('Temperature (Celsius)')
+
+species_lm <- lm(rate ~ temp + species, crickets)
+
+summary.lm(species_lm)
+  
+```
+
+##Interactions
+
+This report shows that the p-value is above 0.05 suggesting that species-temperature interaction and species-species models are not statistically significant in their difference. Meaning we can rely on the simpler 'species_lm' result. Checked interactions but since species model produces more meaningful data to make predictions and practical decisions. 
+
+```{r interactions, echo = FALSE}
+ggplot(crickets, aes(x=temp, y=rate, color = species)) +
+  geom_point() +
+  geom_smooth(method ='lm') +
+  ggtitle("Plot of temperature and chirp rate for two species of crickets") +
+  ylab('Chirp rate(per min.)') +
+  xlab('Temperature (Celsius)')
+
+species_x_temp_lm <- lm(rate ~ temp + species + temp:species, crickets)
+summary.lm(species_x_temp_lm)
+
+anova(species_lm, species_x_temp_lm)
+  
+```

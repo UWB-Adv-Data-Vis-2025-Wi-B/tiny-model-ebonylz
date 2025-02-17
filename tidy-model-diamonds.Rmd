@@ -1,0 +1,68 @@
+---
+title: "tidy-model-diamonds"
+author: "ebonylz"
+date: "2025-02-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library('tidyverse') ; library('modeldata')
+```
+
+## Introduction
+
+This R markdown document demonstrates my abilities to use models for data analysis using a data set collected on diamonds
+
+```{r load data, include = FALSE}
+data(ggplot2::diamonds, package = "modeldata")
+names(diamonds)
+```
+
+## Introduction
+
+3 variables I will be using is price, carat, and cut of a diamond to predict price of diamonds
+
+```{r histogram, echo = FALSE}
+summary(diamonds)
+ggplot(diamonds, aes(x = price, fill=cut)) +
+  geom_histogram() +
+  ggtitle("Distribution of Price and cut of Diamonds") +
+  xlab('Price of diamond')
+```
+
+## How does the carat of a diamond affect the price?
+
+According to this plot, on average a 1-unit increase in carat increases the price by $7,756.43. The error in this report is ($1549) meaning that the model is good but not perfect This model explains 84.93% of the variation based on carat alone
+
+```{r price carat, echo = FALSE}
+ggplot(diamonds, aes(x=carat, y=price)) +
+  geom_point(alpha = 0.5) + 
+  geom_smooth(method = 'lm', se = FALSE) +
+  ggtitle("Plot of Price vs Carat of Diamonds") +
+  ylab('Price of Diamond') +
+  xlab('Carat') +
+  theme_minimal()
+
+price_lm <- lm(lm(price ~ carat, data = diamonds))
+
+summary(price_lm)
+```
+
+## how does the cut and carat of a diamond change the price of a diamond?
+
+In this plot, it shows that higher quality cut does increase the price by about $1239.80 per step of cut. The standard error is $1511 and 85.65% variance in price which is an improvement from the previous plot, but can still use room for improvement
+
+```{r price carat cut, echo = FALSE}
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) +
+  geom_point(alpha = 0.3) + 
+  geom_smooth(method = 'lm', se = FALSE) +
+  ggtitle("Plot of Price vs Carat of Diamonds") +
+  ylab('Price of Diamond') +
+  xlab('Carat') +
+  theme_minimal()
+
+price_lm <- lm(price ~ carat + cut, data = diamonds)
+
+summary(price_lm)
+```
