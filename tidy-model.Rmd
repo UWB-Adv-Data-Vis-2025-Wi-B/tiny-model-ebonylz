@@ -48,3 +48,21 @@ temp_lm <- lm(rate ~ temp, crickets)
 summary.lm(temp_lm)
 ```
 
+## Species-specific effects of temperature on chirping
+
+This model shows that as temperature increases as does cricket chirping. The model accounts for about 99% of the variance of the data. Compared to the first model which accounted for 92%, meaning that although both models are good this model is more reliable. 
+
+
+```{r species, echo = FALSE}
+ggplot(crickets, aes(x=temp, y=rate, color = species)) +
+  geom_point() +
+  geom_smooth(method ="lm") +
+  ggtitle("Plot of temperature and chirp rate for two species of crickets") +
+  ylab('Chirp rate(per min.)') +
+  xlab('Temperature (Celsius)')
+
+species_lm <- lm(rate ~ temp + species, crickets)
+
+summary.lm(species_lm)
+  
+```
