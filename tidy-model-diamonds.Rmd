@@ -7,9 +7,14 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library('tidyverse') ; library('modeldata')
 ```
 
-## R Markdown
+## Introduction
 
-```
+This R markdown document demonstrates my abilities to use models for data analysis using a data set collected on diamonds
+
+```{r load data, include = FALSE}
+data(ggplot2::diamonds, package = "modeldata")
+names(diamonds)
 ```
